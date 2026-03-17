@@ -1,0 +1,2279 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Didzera 2.0 Coaching — Transforme Ton Corps. Transcende Tes Limites.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=Barlow+Condensed:wght@700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #C9A84C;
+    --gold-light: #E8C97A;
+    --gold-dark: #8B6914;
+    --black: #080808;
+    --dark: #0F0F0F;
+    --dark2: #161616;
+    --dark3: #1E1E1E;
+    --white: #F5F0E8;
+    --red: #D4382A;
+    --grey: #888888;
+    --border: rgba(201,168,76,0.2);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: 'Barlow', sans-serif;
+    font-weight: 400;
+    overflow-x: hidden;
+    cursor: default;
+  }
+
+  /* ===== NOISE OVERLAY ===== */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 1000;
+    opacity: 0.4;
+  }
+
+  /* ===== SCROLLBAR ===== */
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: var(--black); }
+  ::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 2px; }
+
+  /* ===== ANIMATIONS ===== */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(40px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  @keyframes slideLeft {
+    from { opacity: 0; transform: translateX(60px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+  @keyframes pulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(201,168,76,0.4); }
+    50% { box-shadow: 0 0 0 20px rgba(201,168,76,0); }
+  }
+  @keyframes shimmer {
+    0% { background-position: -200% center; }
+    100% { background-position: 200% center; }
+  }
+  @keyframes countUp {
+    from { opacity: 0; transform: scale(0.5); }
+    to { opacity: 1; transform: scale(1); }
+  }
+  @keyframes lineGrow {
+    from { width: 0; }
+    to { width: 100%; }
+  }
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-8px); }
+  }
+
+  .anim-fadeup { animation: fadeUp 0.9s cubic-bezier(0.16, 1, 0.3, 1) both; }
+  .anim-delay-1 { animation-delay: 0.1s; }
+  .anim-delay-2 { animation-delay: 0.25s; }
+  .anim-delay-3 { animation-delay: 0.4s; }
+  .anim-delay-4 { animation-delay: 0.6s; }
+  .anim-delay-5 { animation-delay: 0.8s; }
+
+  /* ===== NAVBAR ===== */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 20px 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: linear-gradient(to bottom, rgba(8,8,8,0.95) 0%, transparent 100%);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid rgba(201,168,76,0.1);
+  }
+
+  .nav-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.6rem;
+    letter-spacing: 4px;
+    background: linear-gradient(135deg, var(--gold-light), var(--gold), var(--gold-dark));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .nav-cta {
+    background: var(--gold);
+    color: var(--black);
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 800;
+    font-size: 0.85rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    padding: 12px 28px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
+  }
+  .nav-cta:hover {
+    background: var(--gold-light);
+    transform: translateY(-2px);
+  }
+
+  /* ===== HERO ===== */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 120px 40px 80px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    background: 
+      radial-gradient(ellipse 80% 60% at 50% 20%, rgba(201,168,76,0.08) 0%, transparent 70%),
+      radial-gradient(ellipse 40% 40% at 80% 80%, rgba(201,168,76,0.04) 0%, transparent 70%),
+      radial-gradient(ellipse 60% 80% at 20% 60%, rgba(212,56,42,0.03) 0%, transparent 70%);
+  }
+
+  .hero-lines {
+    position: absolute;
+    inset: 0;
+    background-image: 
+      linear-gradient(rgba(201,168,76,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(201,168,76,0.04) 1px, transparent 1px);
+    background-size: 80px 80px;
+    mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 30%, transparent 100%);
+  }
+
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(201,168,76,0.1);
+    border: 1px solid rgba(201,168,76,0.3);
+    padding: 8px 20px;
+    font-size: 0.75rem;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    margin-bottom: 40px;
+    animation: fadeIn 1s ease both;
+  }
+
+  .hero-badge::before {
+    content: '▸';
+    color: var(--gold);
+  }
+
+  .hero-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(4rem, 11vw, 10rem);
+    line-height: 0.9;
+    letter-spacing: 2px;
+    margin-bottom: 20px;
+    position: relative;
+  }
+
+  .hero-title .line1 {
+    display: block;
+    color: var(--white);
+  }
+
+  .hero-title .line2 {
+    display: block;
+    background: linear-gradient(135deg, var(--gold-light) 0%, var(--gold) 40%, var(--gold-dark) 100%);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: shimmer 4s linear infinite;
+  }
+
+  .hero-title .line3 {
+    display: block;
+    color: var(--white);
+    font-size: 0.45em;
+    letter-spacing: 12px;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    margin-top: 10px;
+    opacity: 0.6;
+  }
+
+  .hero-sub {
+    font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+    font-weight: 300;
+    font-style: italic;
+    color: rgba(245,240,232,0.65);
+    max-width: 700px;
+    line-height: 1.6;
+    margin-bottom: 50px;
+  }
+
+  .hero-sub strong {
+    font-style: normal;
+    font-weight: 600;
+    color: var(--gold-light);
+  }
+
+  .hero-cta-group {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-bottom: 70px;
+  }
+
+  .btn-primary {
+    background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+    color: var(--black);
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: 1rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    padding: 20px 50px;
+    text-decoration: none;
+    display: inline-block;
+    clip-path: polygon(12px 0%, 100% 0%, calc(100% - 12px) 100%, 0% 100%);
+    transition: all 0.3s ease;
+    animation: pulse 3s infinite;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .btn-primary::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, transparent 30%, rgba(255,255,255,0.2) 50%, transparent 70%);
+    transform: translateX(-100%);
+    transition: transform 0.5s ease;
+  }
+
+  .btn-primary:hover::after { transform: translateX(100%); }
+  .btn-primary:hover { transform: translateY(-4px) scale(1.02); box-shadow: 0 20px 60px rgba(201,168,76,0.4); }
+
+  .btn-secondary {
+    background: transparent;
+    color: var(--white);
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    padding: 18px 40px;
+    text-decoration: none;
+    display: inline-block;
+    border: 1px solid rgba(245,240,232,0.3);
+    clip-path: polygon(12px 0%, 100% 0%, calc(100% - 12px) 100%, 0% 100%);
+    transition: all 0.3s ease;
+  }
+
+  .btn-secondary:hover {
+    border-color: var(--gold);
+    color: var(--gold);
+    transform: translateY(-2px);
+  }
+
+  .hero-proof {
+    display: flex;
+    gap: 60px;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .proof-item {
+    text-align: center;
+  }
+
+  .proof-number {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 3rem;
+    background: linear-gradient(135deg, var(--gold-light), var(--gold));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1;
+  }
+
+  .proof-label {
+    font-size: 0.75rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--grey);
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 600;
+    margin-top: 4px;
+  }
+
+  .proof-divider {
+    width: 1px;
+    height: 50px;
+    background: rgba(201,168,76,0.3);
+  }
+
+  /* ===== SECTION COMMON ===== */
+  section {
+    position: relative;
+    padding: 120px 40px;
+  }
+
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .section-label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 0.7rem;
+    letter-spacing: 6px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .section-label::before {
+    content: '';
+    display: block;
+    width: 30px;
+    height: 1px;
+    background: var(--gold);
+  }
+
+  .section-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(2.5rem, 6vw, 5rem);
+    line-height: 0.95;
+    margin-bottom: 30px;
+  }
+
+  /* ===== PAIN SECTION ===== */
+  .pain {
+    background: var(--dark2);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .pain-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+  }
+
+  .pain-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .pain-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    padding: 20px 24px;
+    background: rgba(255,255,255,0.02);
+    border: 1px solid rgba(255,255,255,0.05);
+    border-left: 3px solid var(--red);
+    transition: all 0.3s ease;
+  }
+
+  .pain-item:hover {
+    background: rgba(212,56,42,0.05);
+    border-color: rgba(212,56,42,0.3);
+    transform: translateX(6px);
+  }
+
+  .pain-icon {
+    font-size: 1.2rem;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .pain-text {
+    font-size: 1rem;
+    line-height: 1.5;
+    color: rgba(245,240,232,0.8);
+  }
+
+  .pain-text strong {
+    color: var(--white);
+    font-weight: 600;
+  }
+
+  .pain-quote {
+    padding: 50px;
+    border: 1px solid var(--border);
+    background: rgba(201,168,76,0.03);
+    position: relative;
+  }
+
+  .pain-quote::before {
+    content: '"';
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 8rem;
+    color: var(--gold);
+    opacity: 0.15;
+    position: absolute;
+    top: -20px;
+    left: 30px;
+    line-height: 1;
+  }
+
+  .pain-quote p {
+    font-size: 1.4rem;
+    line-height: 1.6;
+    font-style: italic;
+    font-weight: 300;
+    color: rgba(245,240,232,0.9);
+    margin-bottom: 24px;
+  }
+
+  .pain-quote p strong {
+    color: var(--gold-light);
+    font-style: normal;
+    font-weight: 600;
+  }
+
+  .pain-quote-author {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 0.8rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--gold);
+  }
+
+  /* ===== METHOD SECTION ===== */
+  .method {
+    background: var(--black);
+  }
+
+  .method-intro {
+    max-width: 760px;
+    margin: 0 auto 80px;
+    text-align: center;
+  }
+
+  .method-intro p {
+    font-size: 1.2rem;
+    line-height: 1.8;
+    color: rgba(245,240,232,0.75);
+    font-weight: 300;
+  }
+
+  .method-intro p strong {
+    color: var(--gold-light);
+    font-weight: 600;
+  }
+
+  .pillars {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+  }
+
+  .pillar {
+    background: var(--dark2);
+    padding: 50px 40px;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.4s ease;
+    cursor: default;
+  }
+
+  .pillar::before {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--gold-dark), var(--gold-light));
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.4s ease;
+  }
+
+  .pillar:hover::before { transform: scaleX(1); }
+
+  .pillar:hover {
+    background: var(--dark3);
+    transform: translateY(-6px);
+  }
+
+  .pillar-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 5rem;
+    color: rgba(201,168,76,0.08);
+    line-height: 1;
+    position: absolute;
+    top: 20px;
+    right: 30px;
+  }
+
+  .pillar-icon {
+    font-size: 2rem;
+    margin-bottom: 20px;
+  }
+
+  .pillar-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 800;
+    font-size: 1.4rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--white);
+    margin-bottom: 14px;
+  }
+
+  .pillar-desc {
+    font-size: 0.95rem;
+    line-height: 1.7;
+    color: rgba(245,240,232,0.6);
+  }
+
+  /* ===== PRICING ===== */
+  .pricing {
+    background: var(--dark2);
+    border-top: 1px solid var(--border);
+  }
+
+  .pricing-intro {
+    text-align: center;
+    max-width: 700px;
+    margin: 0 auto 80px;
+  }
+
+  .pricing-intro p {
+    font-size: 1.1rem;
+    color: rgba(245,240,232,0.65);
+    line-height: 1.7;
+  }
+
+  .pricing-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    align-items: start;
+  }
+
+  .plan {
+    background: var(--dark3);
+    border: 1px solid rgba(255,255,255,0.06);
+    position: relative;
+    overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .plan:hover {
+    transform: translateY(-8px);
+    border-color: rgba(201,168,76,0.4);
+    box-shadow: 0 40px 80px rgba(0,0,0,0.5), 0 0 0 1px rgba(201,168,76,0.2);
+  }
+
+  .plan.featured {
+    border-color: var(--gold);
+    background: linear-gradient(180deg, rgba(201,168,76,0.06) 0%, var(--dark3) 40%);
+    transform: scale(1.03);
+    box-shadow: 0 0 0 1px var(--gold), 0 40px 80px rgba(0,0,0,0.4), 0 0 60px rgba(201,168,76,0.1);
+  }
+
+  .plan.featured:hover {
+    transform: scale(1.03) translateY(-8px);
+  }
+
+  .plan-badge {
+    background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+    color: var(--black);
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: 0.7rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    padding: 8px 20px;
+    text-align: center;
+  }
+
+  .plan-header {
+    padding: 40px 36px 30px;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+
+  .plan-level {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 0.7rem;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 8px;
+  }
+
+  .plan-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2.4rem;
+    letter-spacing: 2px;
+    color: var(--white);
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+
+  .plan-who {
+    font-size: 0.85rem;
+    color: rgba(245,240,232,0.45);
+    font-style: italic;
+  }
+
+  .plan-price-wrap {
+    padding: 30px 36px;
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+  }
+
+  .plan-currency {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 1.4rem;
+    color: var(--gold);
+  }
+
+  .plan-price {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 4.5rem;
+    line-height: 1;
+    background: linear-gradient(135deg, var(--gold-light), var(--gold));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .plan-period {
+    font-size: 0.85rem;
+    color: var(--grey);
+    margin-left: 4px;
+  }
+
+  .plan-features {
+    padding: 10px 36px 36px;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .plan-feature {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    font-size: 0.92rem;
+    color: rgba(245,240,232,0.75);
+    line-height: 1.5;
+  }
+
+  .plan-feature-check {
+    color: var(--gold);
+    font-size: 0.8rem;
+    margin-top: 3px;
+    flex-shrink: 0;
+  }
+
+  .plan-feature.highlight {
+    color: var(--white);
+    font-weight: 600;
+  }
+
+  .plan-divider {
+    height: 1px;
+    background: rgba(255,255,255,0.05);
+    margin: 8px 0;
+  }
+
+  .plan-cta {
+    margin: 0 36px 36px;
+    display: block;
+    text-align: center;
+    background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+    color: var(--black);
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: 0.9rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    padding: 18px;
+    text-decoration: none;
+    clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .plan-cta::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, transparent 30%, rgba(255,255,255,0.25) 50%, transparent 70%);
+    transform: translateX(-100%);
+    transition: transform 0.5s ease;
+  }
+
+  .plan-cta:hover::after { transform: translateX(100%); }
+
+  .plan-cta:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 40px rgba(201,168,76,0.4);
+  }
+
+  .plan-cta.outline {
+    background: transparent;
+    color: var(--gold);
+    border: 1px solid var(--gold);
+  }
+
+  .plan-cta.outline:hover {
+    background: rgba(201,168,76,0.1);
+  }
+
+  .plan-guarantee {
+    text-align: center;
+    padding: 0 36px 30px;
+    font-size: 0.78rem;
+    color: var(--grey);
+    line-height: 1.5;
+  }
+
+  /* ===== TESTIMONIALS ===== */
+  .testimonials {
+    background: var(--black);
+    overflow: hidden;
+  }
+
+  .testimonials-header {
+    text-align: center;
+    margin-bottom: 70px;
+  }
+
+  .testimonials-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+
+  .testimonial {
+    background: var(--dark2);
+    border: 1px solid rgba(255,255,255,0.05);
+    padding: 36px;
+    position: relative;
+    transition: all 0.3s ease;
+  }
+
+  .testimonial:hover {
+    border-color: rgba(201,168,76,0.2);
+    transform: translateY(-4px);
+  }
+
+  .testimonial-stars {
+    color: var(--gold);
+    font-size: 0.9rem;
+    letter-spacing: 2px;
+    margin-bottom: 20px;
+  }
+
+  .testimonial-text {
+    font-size: 1rem;
+    line-height: 1.7;
+    color: rgba(245,240,232,0.8);
+    font-style: italic;
+    margin-bottom: 24px;
+    font-weight: 300;
+  }
+
+  .testimonial-text strong {
+    color: var(--gold-light);
+    font-style: normal;
+    font-weight: 600;
+  }
+
+  .testimonial-author {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .testimonial-avatar {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--gold-dark), var(--gold));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.2rem;
+    color: var(--black);
+    flex-shrink: 0;
+  }
+
+  .testimonial-name {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 0.95rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--white);
+  }
+
+  .testimonial-details {
+    font-size: 0.78rem;
+    color: var(--grey);
+    margin-top: 2px;
+  }
+
+  .testimonial-result {
+    margin-top: 20px;
+    padding: 12px 16px;
+    background: rgba(201,168,76,0.06);
+    border-left: 3px solid var(--gold);
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 0.85rem;
+    letter-spacing: 1px;
+    color: var(--gold-light);
+    text-transform: uppercase;
+  }
+
+  /* ===== FAQ ===== */
+  .faq {
+    background: var(--dark2);
+    border-top: 1px solid var(--border);
+  }
+
+  .faq-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: start;
+  }
+
+  .faq-left .section-title {
+    margin-bottom: 20px;
+  }
+
+  .faq-left p {
+    font-size: 1rem;
+    line-height: 1.7;
+    color: rgba(245,240,232,0.6);
+    margin-bottom: 40px;
+  }
+
+  .faq-contact {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--gold);
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 0.9rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    text-decoration: none;
+    border-bottom: 1px solid var(--gold);
+    padding-bottom: 4px;
+    transition: all 0.3s ease;
+  }
+
+  .faq-contact:hover { opacity: 0.7; }
+
+  .faq-list {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .faq-item {
+    background: rgba(255,255,255,0.02);
+    border: 1px solid rgba(255,255,255,0.05);
+    overflow: hidden;
+    transition: all 0.3s ease;
+  }
+
+  .faq-item:hover { border-color: rgba(201,168,76,0.2); }
+
+  .faq-q {
+    padding: 22px 24px;
+    font-family: 'Barlow', sans-serif;
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: var(--white);
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    user-select: none;
+  }
+
+  .faq-toggle {
+    font-size: 1.2rem;
+    color: var(--gold);
+    flex-shrink: 0;
+    transition: transform 0.3s ease;
+  }
+
+  .faq-item.open .faq-toggle { transform: rotate(45deg); }
+
+  .faq-a {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease;
+  }
+
+  .faq-item.open .faq-a { max-height: 300px; }
+
+  .faq-a p {
+    padding: 0 24px 22px;
+    font-size: 0.9rem;
+    line-height: 1.7;
+    color: rgba(245,240,232,0.6);
+  }
+
+  /* ===== FINAL CTA ===== */
+  .final-cta {
+    background: var(--black);
+    text-align: center;
+    padding: 140px 40px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .final-cta-bg {
+    position: absolute;
+    inset: 0;
+    background: 
+      radial-gradient(ellipse 60% 60% at 50% 50%, rgba(201,168,76,0.07) 0%, transparent 70%);
+  }
+
+  .final-cta-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(3rem, 8vw, 7rem);
+    line-height: 0.95;
+    margin-bottom: 30px;
+    position: relative;
+  }
+
+  .final-cta-title span {
+    display: block;
+    background: linear-gradient(135deg, var(--gold-light), var(--gold), var(--gold-dark));
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: shimmer 4s linear infinite;
+  }
+
+  .final-cta p {
+    font-size: 1.1rem;
+    color: rgba(245,240,232,0.6);
+    max-width: 550px;
+    margin: 0 auto 50px;
+    line-height: 1.7;
+    font-weight: 300;
+  }
+
+  .final-cta p strong {
+    color: var(--white);
+    font-weight: 600;
+  }
+
+  .guarantee-bar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    margin-top: 40px;
+    padding: 20px 40px;
+    background: rgba(201,168,76,0.06);
+    border: 1px solid var(--border);
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 0.85rem;
+    color: rgba(245,240,232,0.6);
+  }
+
+  .guarantee-bar strong {
+    color: var(--gold-light);
+    font-weight: 600;
+  }
+
+  /* ===== FOOTER ===== */
+  footer {
+    background: var(--dark2);
+    border-top: 1px solid var(--border);
+    padding: 50px 60px 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+
+  footer .nav-logo { font-size: 1.2rem; }
+
+  .footer-links {
+    display: flex;
+    gap: 30px;
+    flex-wrap: wrap;
+  }
+
+  .footer-links a {
+    color: var(--grey);
+    font-size: 0.78rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 600;
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+
+  .footer-links a:hover { color: var(--gold); }
+
+  .footer-copy {
+    font-size: 0.78rem;
+    color: rgba(136,136,136,0.5);
+  }
+
+  /* ===== SCROLL REVEAL ===== */
+  .reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1), transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .reveal-delay-1 { transition-delay: 0.1s; }
+  .reveal-delay-2 { transition-delay: 0.2s; }
+  .reveal-delay-3 { transition-delay: 0.3s; }
+  .reveal-delay-4 { transition-delay: 0.45s; }
+
+  /* ===== STICKY CTA BAR ===== */
+  .sticky-bar {
+    position: fixed;
+    bottom: -80px;
+    left: 0; right: 0;
+    background: linear-gradient(135deg, var(--gold-dark), var(--gold));
+    padding: 16px 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    z-index: 90;
+    transition: bottom 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .sticky-bar.show { bottom: 0; }
+
+  .sticky-bar-text {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--black);
+  }
+
+  .sticky-bar-cta {
+    background: var(--black);
+    color: var(--gold);
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: 0.85rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    padding: 12px 30px;
+    text-decoration: none;
+    clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
+    transition: all 0.3s ease;
+    white-space: nowrap;
+  }
+
+  .sticky-bar-cta:hover { background: var(--dark3); }
+
+  /* ===== URGENCY BAR ===== */
+  .urgency-bar {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 28px;
+    padding: 14px 24px;
+    background: rgba(212,56,42,0.07);
+    border: 1px solid rgba(212,56,42,0.25);
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .urgency-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--red);
+    flex-shrink: 0;
+    animation: blink 2s ease-in-out infinite;
+  }
+
+  .urgency-text {
+    font-size: 0.85rem;
+    color: rgba(245,240,232,0.75);
+    line-height: 1.4;
+    font-style: italic;
+  }
+
+  /* ===== SPOTS COUNTER ===== */
+  .spots-counter {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 36px 20px;
+  }
+
+  .spots-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--red);
+    flex-shrink: 0;
+    animation: blink 2s ease-in-out infinite;
+  }
+
+  .spots-text {
+    font-size: 0.82rem;
+    color: rgba(212,56,42,0.9);
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  .spots-text strong {
+    color: var(--red);
+    font-size: 1.1rem;
+  }
+
+  @keyframes blink {
+    0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(212,56,42,0.6); }
+    50% { opacity: 0.5; box-shadow: 0 0 0 6px rgba(212,56,42,0); }
+  }
+
+  /* ===== CONTACT FORM SECTION ===== */
+  .contact-section {
+    background: var(--black);
+    border-top: 1px solid var(--border);
+  }
+
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.4fr;
+    gap: 80px;
+    align-items: start;
+  }
+
+  .contact-left .section-title { margin-bottom: 16px; }
+
+  .contact-left p {
+    font-size: 1rem;
+    line-height: 1.7;
+    color: rgba(245,240,232,0.6);
+    margin-bottom: 30px;
+  }
+
+  .contact-info-item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 16px;
+    font-size: 0.9rem;
+    color: rgba(245,240,232,0.65);
+  }
+
+  .contact-info-icon {
+    width: 36px;
+    height: 36px;
+    background: rgba(201,168,76,0.1);
+    border: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    flex-shrink: 0;
+  }
+
+  .contact-form {
+    background: var(--dark2);
+    border: 1px solid var(--border);
+    padding: 50px 44px;
+  }
+
+  .form-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 800;
+    font-size: 1.3rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--white);
+    margin-bottom: 8px;
+  }
+
+  .form-sub {
+    font-size: 0.85rem;
+    color: var(--grey);
+    margin-bottom: 30px;
+  }
+
+  .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+
+  .form-group.full { grid-column: 1 / -1; }
+
+  .form-label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 0.72rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--gold);
+  }
+
+  .form-input, .form-select, .form-textarea {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.1);
+    color: var(--white);
+    font-family: 'Barlow', sans-serif;
+    font-size: 0.95rem;
+    padding: 14px 18px;
+    outline: none;
+    transition: all 0.3s ease;
+    width: 100%;
+    appearance: none;
+    -webkit-appearance: none;
+  }
+
+  .form-input::placeholder, .form-textarea::placeholder { color: rgba(245,240,232,0.25); }
+
+  .form-input:focus, .form-select:focus, .form-textarea:focus {
+    border-color: var(--gold);
+    background: rgba(201,168,76,0.04);
+  }
+
+  .form-select {
+    cursor: pointer;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23C9A84C' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 16px center;
+    padding-right: 40px;
+  }
+
+  .form-select option { background: var(--dark2); color: var(--white); }
+
+  .form-textarea { resize: vertical; min-height: 110px; }
+
+  .form-submit {
+    width: 100%;
+    background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+    color: var(--black);
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: 1rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    padding: 20px;
+    border: none;
+    cursor: pointer;
+    clip-path: polygon(10px 0%, 100% 0%, calc(100% - 10px) 100%, 0% 100%);
+    transition: all 0.3s ease;
+    margin-top: 8px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .form-submit::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, transparent 30%, rgba(255,255,255,0.25) 50%, transparent 70%);
+    transform: translateX(-100%);
+    transition: transform 0.5s ease;
+  }
+
+  .form-submit:hover::after { transform: translateX(100%); }
+  .form-submit:hover { transform: translateY(-2px); box-shadow: 0 16px 40px rgba(201,168,76,0.35); }
+
+  .form-privacy {
+    text-align: center;
+    font-size: 0.75rem;
+    color: rgba(136,136,136,0.6);
+    margin-top: 14px;
+    line-height: 1.5;
+  }
+
+  /* ===== STRIPE MODAL ===== */
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(8,8,8,0.92);
+    backdrop-filter: blur(12px);
+    z-index: 500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+  }
+
+  .modal-overlay.open {
+    opacity: 1;
+    pointer-events: all;
+  }
+
+  .modal {
+    background: var(--dark2);
+    border: 1px solid var(--border);
+    max-width: 520px;
+    width: 100%;
+    position: relative;
+    transform: translateY(30px) scale(0.97);
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .modal-overlay.open .modal {
+    transform: translateY(0) scale(1);
+  }
+
+  .modal-header {
+    padding: 36px 40px 28px;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+  }
+
+  .modal-plan-badge {
+    background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+    color: var(--black);
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: 0.65rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    padding: 5px 14px;
+    display: inline-block;
+    margin-bottom: 10px;
+    clip-path: polygon(6px 0%, 100% 0%, calc(100% - 6px) 100%, 0% 100%);
+  }
+
+  .modal-plan-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2rem;
+    letter-spacing: 2px;
+    color: var(--white);
+    line-height: 1;
+  }
+
+  .modal-plan-price {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2.8rem;
+    background: linear-gradient(135deg, var(--gold-light), var(--gold));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1;
+    margin-top: 6px;
+  }
+
+  .modal-close {
+    background: none;
+    border: none;
+    color: var(--grey);
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: 4px;
+    line-height: 1;
+    transition: color 0.2s;
+    flex-shrink: 0;
+  }
+
+  .modal-close:hover { color: var(--white); }
+
+  .modal-body {
+    padding: 32px 40px;
+  }
+
+  .modal-features {
+    list-style: none;
+    margin-bottom: 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .modal-feature {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.88rem;
+    color: rgba(245,240,232,0.7);
+  }
+
+  .modal-feature-check { color: var(--gold); font-size: 0.75rem; }
+
+  .modal-stripe-btn {
+    display: block;
+    width: 100%;
+    text-align: center;
+    background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+    color: var(--black);
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: 1rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    padding: 20px;
+    text-decoration: none;
+    clip-path: polygon(10px 0%, 100% 0%, calc(100% - 10px) 100%, 0% 100%);
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+    margin-bottom: 14px;
+  }
+
+  .modal-stripe-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 16px 40px rgba(201,168,76,0.35);
+  }
+
+  .modal-secure {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-size: 0.75rem;
+    color: var(--grey);
+  }
+
+  .modal-divider {
+    height: 1px;
+    background: rgba(255,255,255,0.06);
+    margin: 20px 0;
+  }
+
+  /* ===== RESPONSIVE — MOBILE FIRST ===== */
+  @media (max-width: 1100px) {
+    .contact-grid { grid-template-columns: 1fr; gap: 50px; }
+    .pillars { grid-template-columns: repeat(2, 1fr); }
+    .testimonials-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  @media (max-width: 900px) {
+    nav { padding: 14px 20px; }
+    .nav-cta { padding: 10px 20px; font-size: 0.78rem; letter-spacing: 2px; }
+
+    .hero { padding: 100px 20px 60px; min-height: auto; }
+    .hero-cta-group { flex-direction: column; align-items: stretch; }
+    .hero-cta-group .btn-primary,
+    .hero-cta-group .btn-secondary { text-align: center; padding: 18px 30px; }
+    .hero-proof { gap: 20px; flex-wrap: wrap; }
+    .proof-divider { display: none; }
+    .proof-number { font-size: 2.2rem; }
+
+    .pain-grid { grid-template-columns: 1fr; gap: 40px; }
+    .pain-quote { padding: 32px 24px; }
+    .pain-quote p { font-size: 1.15rem; }
+
+    .pillars { grid-template-columns: 1fr; }
+    .pillar { padding: 36px 28px; }
+
+    .pricing-grid { grid-template-columns: 1fr; max-width: 480px; margin: 0 auto; }
+    .plan.featured { transform: none; box-shadow: 0 0 0 1px var(--gold), 0 20px 50px rgba(0,0,0,0.4); }
+    .plan.featured:hover { transform: translateY(-8px); }
+
+    .testimonials-grid { grid-template-columns: 1fr; }
+
+    .faq-grid { grid-template-columns: 1fr; gap: 40px; }
+
+    .contact-grid { grid-template-columns: 1fr; gap: 40px; }
+    .contact-form { padding: 32px 24px; }
+    .form-row { grid-template-columns: 1fr; }
+
+    section { padding: 70px 20px; }
+
+    footer { padding: 36px 20px 24px; flex-direction: column; align-items: flex-start; gap: 16px; }
+    .footer-links { gap: 20px; }
+
+    .sticky-bar { padding: 12px 16px; gap: 8px; }
+    .sticky-bar-text { font-size: 0.8rem; letter-spacing: 1px; }
+    .sticky-bar-cta { padding: 10px 20px; font-size: 0.78rem; }
+
+    .modal { max-width: 100%; }
+    .modal-header { padding: 28px 24px 20px; }
+    .modal-body { padding: 24px 24px; }
+  }
+
+  @media (max-width: 480px) {
+    .hero-title { font-size: clamp(3rem, 16vw, 5rem); }
+    .section-title { font-size: clamp(2rem, 10vw, 3rem); }
+    .hero-badge { font-size: 0.65rem; letter-spacing: 3px; }
+    nav { padding: 12px 16px; }
+    .plan-cta, .modal-stripe-btn { font-size: 0.82rem; letter-spacing: 2px; padding: 16px; }
+    .proof-item { min-width: 80px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- STRIPE MODAL -->
+<div class="modal-overlay" id="stripeModal">
+  <div class="modal">
+    <div class="modal-header">
+      <div>
+        <div class="modal-plan-badge" id="modalBadge">Plan Starter</div>
+        <div class="modal-plan-name" id="modalName">Starter</div>
+        <div class="modal-plan-price" id="modalPrice">€29.99<span style="font-size:1rem;font-family:'Barlow',sans-serif;font-weight:300;color:var(--grey);margin-left:4px;">/mois</span></div>
+      </div>
+      <button class="modal-close" id="modalClose">✕</button>
+    </div>
+    <div class="modal-body">
+      <ul class="modal-features" id="modalFeatures"></ul>
+      <div class="modal-divider"></div>
+      <a href="#" class="modal-stripe-btn" id="modalStripeBtn">
+        🔒 Payer avec Stripe — Inscription sécurisée
+      </a>
+      <div class="modal-secure">
+        🛡️ Paiement 100% sécurisé · SSL · Sans engagement · Annulation en 1 clic
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">DIDZERA 2.0</div>
+  <a href="#pricing" class="nav-cta">Commencer maintenant</a>
+</nav>
+
+<!-- STICKY BAR -->
+<div class="sticky-bar" id="stickyBar">
+  <div class="sticky-bar-text">🔥 Rejoins + de 500 membres actifs — Places limitées</div>
+  <a href="#pricing" class="sticky-bar-cta">Choisir mon programme →</a>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-lines"></div>
+
+  <div class="hero-badge anim-fadeup">Programme de coaching premium</div>
+
+  <h1 class="hero-title anim-fadeup anim-delay-1">
+    <span class="line1">Ton corps</span>
+    <span class="line2">ne ment pas.</span>
+    <span class="line3">Didzera 2.0 Coaching</span>
+  </h1>
+
+  <p class="hero-sub anim-fadeup anim-delay-2">
+    Tu t'entraînes depuis des mois. Tu manges "propre". Et pourtant… <strong>rien ne change vraiment.</strong><br>
+    Il est temps d'arrêter de tourner en rond et de t'entraîner avec un plan construit pour <em>toi</em>.
+  </p>
+
+  <div class="hero-cta-group anim-fadeup anim-delay-3">
+    <a href="#pricing" class="btn-primary">Je veux transformer mon corps →</a>
+    <a href="#method" class="btn-secondary">Découvrir la méthode</a>
+  </div>
+
+  <div class="hero-proof anim-fadeup anim-delay-4">
+    <div class="proof-item">
+      <div class="proof-number">500+</div>
+      <div class="proof-label">Membres actifs</div>
+    </div>
+    <div class="proof-divider"></div>
+    <div class="proof-item">
+      <div class="proof-number">4.9★</div>
+      <div class="proof-label">Note moyenne</div>
+    </div>
+    <div class="proof-divider"></div>
+    <div class="proof-item">
+      <div class="proof-number">3 ans</div>
+      <div class="proof-label">D'expertise coaching</div>
+    </div>
+    <div class="proof-divider"></div>
+    <div class="proof-item">
+      <div class="proof-number">98%</div>
+      <div class="proof-label">Satisfaits & fidèles</div>
+    </div>
+  </div>
+</section>
+
+<!-- PAIN -->
+<section class="pain">
+  <div class="container">
+    <div class="pain-grid">
+      <div>
+        <div class="section-label reveal">Le problème</div>
+        <h2 class="section-title reveal reveal-delay-1">Tu reconnais <br>cette situation ?</h2>
+        <ul class="pain-list">
+          <li class="pain-item reveal reveal-delay-1">
+            <span class="pain-icon">😤</span>
+            <p class="pain-text"><strong>Tu suis des programmes trouvés sur YouTube</strong> mais tu ne sais jamais si tu fais vraiment les bons exercices pour TOI.</p>
+          </li>
+          <li class="pain-item reveal reveal-delay-2">
+            <span class="pain-icon">🍽️</span>
+            <p class="pain-text"><strong>La nutrition, c'est le flou total.</strong> Calories ? Macros ? Jeûne intermittent ? Tu ne sais plus quoi croire.</p>
+          </li>
+          <li class="pain-item reveal reveal-delay-3">
+            <span class="pain-icon">📉</span>
+            <p class="pain-text"><strong>Tu stagnes depuis des semaines</strong> malgré tes efforts. Tu vois d'autres progresser sur les réseaux et tu te demandes ce qu'ils font de différent.</p>
+          </li>
+          <li class="pain-item reveal reveal-delay-4">
+            <span class="pain-icon">😞</span>
+            <p class="pain-text"><strong>Tu manques de motivation et de structure.</strong> Sans suivi, sans accountability, les excuses finissent toujours par gagner.</p>
+          </li>
+        </ul>
+      </div>
+      <div class="pain-quote reveal reveal-delay-2">
+        <p>La vérité que personne ne te dit : <strong>travailler dur ne suffit pas.</strong> Travailler avec le bon plan, la bonne méthode, et le bon coach — <strong>ça, ça change tout.</strong></p>
+        <div class="pain-quote-author">— Didzera, Coach Certifié</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- METHOD -->
+<section class="method" id="method">
+  <div class="container">
+    <div class="method-intro">
+      <div class="section-label reveal" style="justify-content:center">La méthode Didzera 2.0</div>
+      <h2 class="section-title reveal reveal-delay-1" style="text-align:center">Un système qui <span style="background:linear-gradient(135deg,var(--gold-light),var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">fonctionne vraiment</span></h2>
+      <p class="reveal reveal-delay-2">Pas de programme générique. Pas de remplissage. Chaque membre reçoit un plan construit selon <strong>son niveau, ses objectifs, sa morphologie.</strong> C'est ça la différence entre stagner et progresser.</p>
+    </div>
+
+    <div class="pillars">
+      <div class="pillar reveal">
+        <div class="pillar-num">01</div>
+        <div class="pillar-icon">🎯</div>
+        <div class="pillar-title">Diagnostic Personnalisé</div>
+        <p class="pillar-desc">Questionnaire complet sur ton historique, tes objectifs, ta morphologie et ta récupération. Ton programme est construit spécialement pour toi — pas copié-collé.</p>
+      </div>
+      <div class="pillar reveal reveal-delay-1">
+        <div class="pillar-num">02</div>
+        <div class="pillar-icon">📋</div>
+        <div class="pillar-title">Programme d'Entraînement Sur-Mesure</div>
+        <p class="pillar-desc">Plans d'entraînement progressifs, structurés par blocs de 4 semaines, avec vidéos d'exécution, techniques de mise sous tension et ajustements en temps réel.</p>
+      </div>
+      <div class="pillar reveal reveal-delay-2">
+        <div class="pillar-num">03</div>
+        <div class="pillar-icon">🥗</div>
+        <div class="pillar-title">Plan Nutritionnel Complet</div>
+        <p class="pillar-desc">Calcul de tes calories et macros idéales, recettes adaptées, stratégies pour les sorties, les repas de triche et les périodes de prise ou sèche.</p>
+      </div>
+      <div class="pillar reveal reveal-delay-3">
+        <div class="pillar-num">04</div>
+        <div class="pillar-icon">💬</div>
+        <div class="pillar-title">Suivi & Accountability</div>
+        <p class="pillar-desc">Accès direct par messagerie pour toutes tes questions. Bilans hebdomadaires avec ajustements. Tu n'es jamais seul dans ta progression.</p>
+      </div>
+      <div class="pillar reveal">
+        <div class="pillar-num">05</div>
+        <div class="pillar-icon">📊</div>
+        <div class="pillar-title">Analyse & Ajustements</div>
+        <p class="pillar-desc">Analyse régulière de tes photos, mensurations et performances. Les plans évoluent avec toi pour garantir une progression constante sans plateau.</p>
+      </div>
+      <div class="pillar reveal reveal-delay-1">
+        <div class="pillar-num">06</div>
+        <div class="pillar-icon">🧠</div>
+        <div class="pillar-title">Éducation & Mindset</div>
+        <p class="pillar-desc">Tu comprends pourquoi tu fais ce que tu fais. Fiches pédagogiques, conseils de récupération, gestion du stress et construction d'habitudes durables.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="pricing" id="pricing">
+  <div class="container">
+    <div class="pricing-intro">
+      <div class="section-label reveal" style="justify-content:center">Choisis ton niveau</div>
+      <h2 class="section-title reveal reveal-delay-1" style="text-align:center">3 formules. <br>1 transformation.</h2>
+      <p class="reveal reveal-delay-2">Quel que soit ton niveau actuel, il y a un programme Didzera 2.0 conçu pour toi. Ton investissement le plus rentable, c'est celui dans ton corps.</p>
+
+      <!-- URGENCY BAR -->
+      <div class="urgency-bar reveal reveal-delay-3">
+        <span class="urgency-dot"></span>
+        <span class="urgency-text">Places limitées ce mois-ci — Le coaching reste personnel et qualitatif, je n'accepte pas un nombre illimité de membres</span>
+      </div>
+    </div>
+
+    <div class="pricing-grid">
+
+      <!-- PLAN 1 -->
+      <div class="plan reveal">
+        <div class="plan-header">
+          <div class="plan-level">Niveau 1 · Fondations</div>
+          <div class="plan-name">Starter</div>
+          <div class="plan-who">Moins d'1 an de pratique</div>
+        </div>
+        <div class="plan-price-wrap">
+          <span class="plan-currency">€</span>
+          <span class="plan-price">29</span>
+          <span style="font-family:'Bebas Neue';font-size:2.5rem;background:linear-gradient(135deg,var(--gold-light),var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">.99</span>
+          <span class="plan-period">/mois</span>
+        </div>
+        <ul class="plan-features">
+          <li class="plan-feature highlight">
+            <span class="plan-feature-check">◆</span>
+            <span>Programme d'entraînement débutant (3 séances/semaine)</span>
+          </li>
+          <li class="plan-feature">
+            <span class="plan-feature-check">◆</span>
+            <span>Apprentissage des mouvements fondamentaux avec indications & corrections techniques</span>
+          </li>
+          <li class="plan-feature">
+            <span class="plan-feature-check">◆</span>
+            <span>Plan nutritionnel de base — calcul calories & macros</span>
+          </li>
+          <li class="plan-feature">
+            <span class="plan-feature-check">◆</span>
+            <span>Guide complet des erreurs débutant à éviter</span>
+          </li>
+          <div class="plan-divider"></div>
+          <li class="plan-feature">
+            <span class="plan-feature-check">◆</span>
+            <span>Check-in mensuel par message</span>
+          </li>
+          <li class="plan-feature">
+            <span class="plan-feature-check">◆</span>
+            <span>Accès à la communauté privée Didzera</span>
+          </li>
+          <li class="plan-feature">
+            <span class="plan-feature-check">◆</span>
+            <span>Fiches récupération & qualité du sommeil</span>
+          </li>
+          <li class="plan-feature">
+            <span class="plan-feature-check">◆</span>
+            <span>Réévaluation du programme toutes les 4 semaines</span>
+          </li>
+        </ul>
+        <button class="plan-cta outline" onclick="openModal('starter')">Démarrer Starter →</button>
+        <div class="plan-guarantee">✓ Sans engagement — Annulation à tout moment</div>
+        <div class="spots-counter">
+          <span class="spots-dot"></span>
+          <span class="spots-text"><strong id="spots-starter">4</strong> places restantes ce mois-ci</span>
+        </div>
+      </div>
+
+      <!-- PLAN 2 FEATURED -->
+      <div class="plan featured reveal reveal-delay-1">
+        <div class="plan-badge">⚡ Le plus populaire</div>
+        <div class="plan-header">
+          <div class="plan-level">Niveau 2 · Performance</div>
+          <div class="plan-name">Intermédiaire</div>
+          <div class="plan-who">2 ans de pratique minimum</div>
+        </div>
+        <div class="plan-price-wrap">
+          <span class="plan-currency">€</span>
+          <span class="plan-price">49</span>
+          <span style="font-family:'Bebas Neue';font-size:2.5rem;background:linear-gradient(135deg,var(--gold-light),var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">.99</span>
+          <span class="plan-period">/mois</span>
+        </div>
+        <ul class="plan-features">
+          <li class="plan-feature highlight">
+            <span class="plan-feature-check">◆</span>
+            <span>Programme 4-5 séances/semaine — Périodisation avancée</span>
+          </li>
+          <li class="plan-feature highlight">
+            <span class="plan-feature-check">◆</span>
+            <span>Blocs d'hypertrophie, force et conditionnement alternés</span>
+          </li>
+          <li class="plan-feature">
+            <span class="plan-feature-check">◆</span>
+            <span>Plan nutritionnel avancé — Cyclage des glucides & gestion de sèche/prise de masse</span>
+          </li>
+          <li class="plan-feature">
+            <span class="plan-feature-check">◆</span>
+            <span>Analyse mensuelle photos + mensurations avec rapport détaillé</span>
+          </li>
+          <div class="plan-divider"></div>
+          <li class="plan-feature">
+            <span class="plan-feature-check">◆</span>
+            <span>Suivi bihebdomadaire par message (réponse sous 24h)</span>
+          </li>
+          <li class="plan-feature">
+            <span class="plan-feature-check">◆</span>
+            <span>Accès communauté privée + contenu exclusif</span>
+          </li>
+          <li class="plan-feature">
+            <span class="plan-feature-check">◆</span>
+            <span>Stratégies supplémentation adaptées</span>
+          </li>
+          <li class="plan-feature">
+            <span class="plan-feature-check">◆</span>
+            <span>Appel bilan mensuel (30 min visio)</span>
+          </li>
+          <li class="plan-feature">
+            <span class="plan-feature-check">◆</span>
+            <span>Ajustements programme en temps réel selon tes performances</span>
+          </li>
+        </ul>
+        <button class="plan-cta" onclick="openModal('intermediaire')">Passer au niveau supérieur →</button>
+        <div class="plan-guarantee">✓ Sans engagement — Annulation à tout moment</div>
+        <div class="spots-counter">
+          <span class="spots-dot"></span>
+          <span class="spots-text"><strong id="spots-inter">2</strong> places restantes ce mois-ci</span>
+        </div>
+      </div>
+
+      <!-- PLAN 3 -->
+      <div class="plan reveal reveal-delay-2">
+        <div class="plan-header">
+          <div class="plan-level">Niveau 3 · Élite</div>
+          <div class="plan-name">Expert</div>
+          <div class="plan-who">4-5 ans de pratique minimum</div>
+        </div>
+        <div class="plan-price-wrap">
+          <span class="plan-currency">€</span>
+          <span class="plan-price">69</span>
+          <span style="font-family:'Bebas Neue';font-size:2.5rem;background:linear-gradient(135deg,var(--gold-light),var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">.99</span>
+          <span class="plan-period">/mois</span>
+        </div>
+        <ul class="plan-features">
+          <li class="plan-feature highlight">
+            <span class="plan-feature-check">◆</span>
+            <span>Programme haute fréquence — 5-6 séances/semaine ultra-structurées</span>
+          </li>
+          <li class="plan-feature highlight">
+            <span class="plan-feature-check">◆</span>
+            <span>Periodisation DUP avancée, techniques d'intensification (cluster sets, rest-pause, myo-reps)</span>
+          </li>
+          <li class="plan-feature">
+            <span class="plan-feature-check">◆</span>
+            <span>Nutrition de compétition — Peaking, refeed, water manipulation</span>
+          </li>
+          <li class="plan-feature">
+            <span class="plan-feature-check">◆</span>
+            <span>Suivi quotidien disponible — Réponse sous 12h garantie</span>
+          </li>
+          <div class="plan-divider"></div>
+          <li class="plan-feature">
+            <span class="plan-feature-check">◆</span>
+            <span>2 appels visio/mois (45 min chacun)</span>
+          </li>
+          <li class="plan-feature">
+            <span class="plan-feature-check">◆</span>
+            <span>Analyse vidéo de tes mouvements avec corrections personnalisées</span>
+          </li>
+          <li class="plan-feature">
+            <span class="plan-feature-check">◆</span>
+            <span>Préparation à la compétition si souhaité</span>
+          </li>
+          <li class="plan-feature">
+            <span class="plan-feature-check">◆</span>
+            <span>Accès prioritaire à toutes les nouveautés & beta exclusives</span>
+          </li>
+          <li class="plan-feature">
+            <span class="plan-feature-check">◆</span>
+            <span>Plan récupération, mobilité et prévention blessures intégré</span>
+          </li>
+        </ul>
+        <button class="plan-cta outline" onclick="openModal('expert')">Intégrer l'Élite →</button>
+        <div class="plan-guarantee">✓ Sans engagement — Annulation à tout moment</div>
+        <div class="spots-counter">
+          <span class="spots-dot"></span>
+          <span class="spots-text"><strong id="spots-expert">1</strong> place restante ce mois-ci</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testimonials">
+  <div class="container">
+    <div class="testimonials-header">
+      <div class="section-label reveal" style="justify-content:center">Ils l'ont vécu</div>
+      <h2 class="section-title reveal reveal-delay-1" style="text-align:center">Des résultats réels. <br>Des gens comme toi.</h2>
+    </div>
+    <div class="testimonials-grid">
+
+      <div class="testimonial reveal">
+        <div class="testimonial-stars">★★★★★</div>
+        <p class="testimonial-text">En 3 mois j'ai pris <strong>6kg de muscle</strong> tout en perdant de la graisse. J'avais essayé plein de programmes avant, mais là c'est la première fois que je comprends vraiment pourquoi je fais chaque exercice. Le suivi de Didzera change tout.</p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">KL</div>
+          <div>
+            <div class="testimonial-name">Kevin L.</div>
+            <div class="testimonial-details">Plan Intermédiaire · 4 mois</div>
+          </div>
+        </div>
+        <div class="testimonial-result">+6kg muscle · −4% masse grasse</div>
+      </div>
+
+      <div class="testimonial reveal reveal-delay-1">
+        <div class="testimonial-stars">★★★★★</div>
+        <p class="testimonial-text">Je cherchais un coach qui comprend les débutants sans me prendre de haut. Le plan Starter m'a appris à bouger correctement dès le début. <strong>Après 8 semaines, mes chiffres sur banc et squat ont explosé.</strong> Je kiffe vraiment chaque séance maintenant.</p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">AM</div>
+          <div>
+            <div class="testimonial-name">Axel M.</div>
+            <div class="testimonial-details">Plan Starter · 2 mois</div>
+          </div>
+        </div>
+        <div class="testimonial-result">Banc : 60kg → 90kg · Squat : 70kg → 110kg</div>
+      </div>
+
+      <div class="testimonial reveal reveal-delay-2">
+        <div class="testimonial-stars">★★★★★</div>
+        <p class="testimonial-text">Après 5 ans à stagner, j'ai rejoint le plan Expert. <strong>Les techniques d'intensification que j'ai découvertes m'ont fait repasser un cap que je croyais impossible.</strong> La prépa compét que j'ai faite avec Didzera était au top, podium garanti.</p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">SR</div>
+          <div>
+            <div class="testimonial-name">Samir R.</div>
+            <div class="testimonial-details">Plan Expert · 6 mois</div>
+          </div>
+        </div>
+        <div class="testimonial-result">Podium compétition régionale · PR sur tous les lifts</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq">
+  <div class="container">
+    <div class="faq-grid">
+      <div class="faq-left">
+        <div class="section-label reveal">FAQ</div>
+        <h2 class="section-title reveal reveal-delay-1">Tu as des<br>questions ?</h2>
+        <p class="reveal reveal-delay-2">Tu ne trouves pas ce que tu cherches ci-contre ? Envoie-moi directement un message, je réponds personnellement à chaque demande.</p>
+        <a href="/cdn-cgi/l/email-protection#65060a0b1104061125010c011f0017044b060a08" class="faq-contact reveal reveal-delay-3">📩 M'écrire directement</a>
+      </div>
+      <div class="faq-list reveal reveal-delay-1">
+
+        <div class="faq-item">
+          <div class="faq-q">Comment savoir quel plan choisir ? <span class="faq-toggle">+</span></div>
+          <div class="faq-a"><p>Basique : si tu as moins d'1 an de pratique régulière → Starter. Entre 1 et 4 ans → Intermédiaire. 4+ ans d'entraînement sérieux → Expert. En cas de doute, réponds au questionnaire après inscription et je t'oriente personnellement.</p></div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-q">Puis-je m'entraîner à la maison sans matériel ? <span class="faq-toggle">+</span></div>
+          <div class="faq-a"><p>Les programmes sont optimisés pour une salle de sport. Cependant, si tu as du matériel à domicile (barre, haltères, élastiques), on peut adapter. Précise-le dans ton questionnaire d'intégration.</p></div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-q">Est-ce que la nutrition est incluse dans tous les plans ? <span class="faq-toggle">+</span></div>
+          <div class="faq-a"><p>Oui, chaque plan inclut un volet nutritionnel adapté au niveau. Plus le plan est avancé, plus la stratégie nutritionnelle est précise : cyclage des glucides, refeeds, péaking pour les experts.</p></div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-q">Combien de temps avant de voir des résultats ? <span class="faq-toggle">+</span></div>
+          <div class="faq-a"><p>Les premiers résultats visibles (énergie, force, posture) arrivent souvent dès 3-4 semaines. Les transformations physiques notables se voient généralement après 8-12 semaines d'application sérieuse. La constance est la clé.</p></div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-q">Y a-t-il un engagement minimum ? <span class="faq-toggle">+</span></div>
+          <div class="faq-a"><p>Aucun engagement. Tu peux annuler à tout moment depuis ton espace membre. Je préfère que tu restes parce que tu progresses, pas parce que tu es bloqué par un contrat.</p></div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-q">Puis-je changer de plan en cours de route ? <span class="faq-toggle">+</span></div>
+          <div class="faq-a"><p>Absolument. Si tu progresses plus vite que prévu (ou si tu veux upgrader), tu peux changer de plan à tout moment. L'upgrade se fait au prorata du mois en cours.</p></div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact-section" id="contact">
+  <div class="container">
+    <div class="contact-grid">
+      <div class="contact-left">
+        <div class="section-label reveal">Contact</div>
+        <h2 class="section-title reveal reveal-delay-1">Une question<br>avant de te lancer ?</h2>
+        <p class="reveal reveal-delay-2">Tu hésites encore sur ton niveau, tu veux en savoir plus sur la méthode ou juste discuter de ton objectif ? Envoie-moi un message. Je réponds personnellement à chaque demande sous 24h.</p>
+        <div class="contact-info-item reveal reveal-delay-3">
+          <div class="contact-info-icon">📩</div>
+          <span><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="86e5e9e8f2e7e5f2c6e2efe2fce3f4e7a8e5e9eb">[email&#160;protected]</a></span>
+        </div>
+        <div class="contact-info-item reveal reveal-delay-3">
+          <div class="contact-info-icon">📸</div>
+          <span>@didzera — Instagram</span>
+        </div>
+        <div class="contact-info-item reveal reveal-delay-4">
+          <div class="contact-info-icon">⏱️</div>
+          <span>Réponse garantie sous 24h ouvrées</span>
+        </div>
+      </div>
+      <div class="contact-form reveal reveal-delay-2">
+        <div class="form-title">Prends contact</div>
+        <div class="form-sub">Tous les champs marqués sont requis pour te répondre efficacement.</div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Prénom</label>
+            <input class="form-input" type="text" placeholder="Ton prénom" id="contactPrenom">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Email</label>
+            <input class="form-input" type="email" placeholder="ton@email.com" id="contactEmail">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Ton niveau actuel</label>
+          <select class="form-select form-input" id="contactNiveau">
+            <option value="" disabled selected>Sélectionne ton niveau</option>
+            <option value="starter">Débutant — Moins d'1 an</option>
+            <option value="inter">Intermédiaire — 2 ans +</option>
+            <option value="expert">Expert — 4-5 ans +</option>
+            <option value="autre">Je ne suis pas sûr(e)</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Ton objectif principal</label>
+          <select class="form-select form-input" id="contactObjectif">
+            <option value="" disabled selected>Quel est ton objectif ?</option>
+            <option>Prise de masse musculaire</option>
+            <option>Perte de graisse / Sèche</option>
+            <option>Recomposition corporelle</option>
+            <option>Force & Performance</option>
+            <option>Préparer une compétition</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Ton message</label>
+          <textarea class="form-textarea form-input" placeholder="Dis-moi où tu en es, ce que tu cherches, tes questions… Je lis tout." id="contactMessage"></textarea>
+        </div>
+        <button class="form-submit" onclick="submitForm()">Envoyer mon message →</button>
+        <div class="form-privacy">🔒 Tes informations restent confidentielles et ne sont jamais partagées.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="final-cta">
+  <div class="final-cta-bg"></div>
+  <div class="container" style="position:relative">
+    <h2 class="final-cta-title reveal">
+      Le meilleur moment<br>
+      <span>c'est maintenant.</span>
+    </h2>
+    <p class="reveal reveal-delay-1">
+      Dans 3 mois, tu regarderas cette page et tu te demanderas pourquoi tu as attendu autant. <strong>Ton corps est prêt. La question c'est : est-ce que TOI tu l'es ?</strong>
+    </p>
+    <a href="#pricing" class="btn-primary reveal reveal-delay-2">Je commence ma transformation →</a>
+    <div class="guarantee-bar reveal reveal-delay-3">
+      🛡️ <strong>Satisfait ou remboursé 14 jours</strong> — Zéro risque, 100% engagement de ma part
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="nav-logo">DIDZERA 2.0</div>
+  <div class="footer-links">
+    <a href="#">Mentions légales</a>
+    <a href="#">CGV</a>
+    <a href="#">Contact</a>
+    <a href="#">Instagram</a>
+  </div>
+  <div class="footer-copy">© 2024 Didzera 2.0 Coaching. Tous droits réservés.</div>
+</footer>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+  // ===== SCROLL REVEAL =====
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) entry.target.classList.add('visible');
+    });
+  }, { threshold: 0.08, rootMargin: '0px 0px -50px 0px' });
+  reveals.forEach(el => observer.observe(el));
+
+  // ===== STICKY BAR =====
+  const stickyBar = document.getElementById('stickyBar');
+  window.addEventListener('scroll', () => {
+    stickyBar.classList.toggle('show', window.scrollY > 600);
+  }, { passive: true });
+
+  // ===== FAQ TOGGLE =====
+  document.querySelectorAll('.faq-item').forEach(item => {
+    item.querySelector('.faq-q').addEventListener('click', () => {
+      const isOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+      if (!isOpen) item.classList.add('open');
+    });
+  });
+
+  // ===== SMOOTH SCROLL =====
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      const target = document.querySelector(a.getAttribute('href'));
+      if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+    });
+  });
+
+  // ===== STRIPE MODAL =====
+  const plans = {
+    starter: {
+      badge: 'Plan Starter',
+      name: 'Starter',
+      price: '€29.99',
+      // 🔑 Remplace par ton vrai lien Stripe Payment Link
+      stripeUrl: 'https://buy.stripe.com/REMPLACE_LIEN_STARTER',
+      features: [
+        'Programme 3 séances/semaine pour débutants',
+        'Plan nutritionnel calories & macros',
+        'Indications & corrections techniques',
+        'Check-in mensuel par message',
+        'Accès communauté privée Didzera',
+        'Réévaluation programme toutes les 4 semaines',
+        'Sans engagement · Annulation à tout moment'
+      ]
+    },
+    intermediaire: {
+      badge: '⚡ Le plus populaire',
+      name: 'Intermédiaire',
+      price: '€49.99',
+      stripeUrl: 'https://buy.stripe.com/REMPLACE_LIEN_INTER',
+      features: [
+        'Programme 4-5 séances/semaine — Périodisation avancée',
+        'Cyclage des glucides & stratégie sèche/prise de masse',
+        'Analyse mensuelle photos + rapport détaillé',
+        'Suivi bihebdomadaire (réponse sous 24h)',
+        'Appel visio mensuel de 30 minutes',
+        'Stratégies supplémentation adaptées',
+        'Ajustements en temps réel selon performances',
+        'Sans engagement · Annulation à tout moment'
+      ]
+    },
+    expert: {
+      badge: 'Plan Élite',
+      name: 'Expert',
+      price: '€69.99',
+      stripeUrl: 'https://buy.stripe.com/REMPLACE_LIEN_EXPERT',
+      features: [
+        'Programme haute fréquence 5-6 séances/semaine',
+        'Périodisation DUP + techniques d\'intensification avancées',
+        'Nutrition de compétition — Peaking & water manipulation',
+        'Suivi quotidien — Réponse sous 12h garantie',
+        '2 appels visio/mois de 45 minutes',
+        'Analyse vidéo de tes mouvements',
+        'Préparation compétition incluse si souhaité',
+        'Sans engagement · Annulation à tout moment'
+      ]
+    }
+  };
+
+  function openModal(planKey) {
+    const plan = plans[planKey];
+    document.getElementById('modalBadge').textContent = plan.badge;
+    document.getElementById('modalName').textContent = plan.name;
+    document.getElementById('modalPrice').innerHTML = plan.price + '<span style="font-size:1rem;font-family:\'Barlow\',sans-serif;font-weight:300;color:var(--grey);margin-left:4px;">/mois</span>';
+    document.getElementById('modalStripeBtn').href = plan.stripeUrl;
+    const featuresList = document.getElementById('modalFeatures');
+    featuresList.innerHTML = plan.features.map(f => `
+      <li class="modal-feature">
+        <span class="modal-feature-check">◆</span>
+        <span>${f}</span>
+      </li>
+    `).join('');
+    document.getElementById('stripeModal').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    document.getElementById('stripeModal').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  document.getElementById('modalClose').addEventListener('click', closeModal);
+  document.getElementById('stripeModal').addEventListener('click', e => {
+    if (e.target === document.getElementById('stripeModal')) closeModal();
+  });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+  // ===== CONTACT FORM =====
+  function submitForm() {
+    const prenom = document.getElementById('contactPrenom').value.trim();
+    const email = document.getElementById('contactEmail').value.trim();
+    const niveau = document.getElementById('contactNiveau').value;
+    const objectif = document.getElementById('contactObjectif').value;
+    const message = document.getElementById('contactMessage').value.trim();
+
+    if (!prenom || !email || !niveau || !objectif || !message) {
+      alert('Merci de remplir tous les champs avant d\'envoyer ! 💪');
+      return;
+    }
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      alert('L\'adresse email ne semble pas valide.');
+      return;
+    }
+
+    // 🔑 Connecte ici ton backend / Formspree / EmailJS
+    // Exemple Formspree :
+    // const formData = new FormData();
+    // formData.append('name', prenom); formData.append('email', email); ...
+    // fetch('https://formspree.io/f/TON_ID', { method: 'POST', body: formData });
+
+    const btn = document.querySelector('.form-submit');
+    btn.textContent = '✓ Message envoyé ! Je te réponds sous 24h.';
+    btn.style.background = 'linear-gradient(135deg, #2d7a3a, #1a5226)';
+    btn.styl
